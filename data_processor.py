@@ -14,7 +14,7 @@ pos_data = open('training_pos.csv', 'r').read()
 data = [] #dataset
 all_words = [] #all words in dataset
 s=0
-n=10000 # number of examples from each set (any limit or none can be chosen)
+n=100 # number of examples from each set (any limit or none can be chosen)
 
 
 for line in neg_data.split('\n'):
@@ -55,12 +55,29 @@ def feature_find_and_index(line):
     return line_vector    
 
 #Find features of each line in our data document
-data_b = [(feature_find_and_index(line), cat) for (line, cat) in data ]
+combine = lambda dataset: [(feature_find_and_index(line), cat) for (line, cat) in dataset ]
 
+
+#Transform list to matrix for input on neural network
+def reform(dataset):
+    new_data = np.zeros((len(dataset), len(featureset)+1)) #len(featureset) + len(target) 
+    for i in range(len(dataset)):
+        new_data[i,:] = np.append(dataset[i][0].reshape(-1,1), dataset[i][1])
+    return new_data[:,:-1], new_data[:,-1]    #creating outputs: X,_ = reform(data_b) and _,y = reform(data_b)
+
+feature_find_b = lambda dataset: reform(combine(dataset))
+
+'''Combine feature_find_and_index, combine, reform
+'''
+
+# we have output X, y = feature_find_b(data)
+
+'''
 #Advised to pickle
 data_mat_p = open('data_b.pickle', 'wb')
 pickle.dump(data_b, data_mat_p)
 data_mat_p.close()
+'''
 
 #Data processing for other models is more straightforward 
 '''We now create function similar to above,
@@ -76,7 +93,9 @@ def feature_find(line): #we can use a similar fuction to find features
 
 dataset = [(feature_find(line), cat) for (line, cat) in data]
 
+'''
 #'Again advised to pickle
 dataset_p = open('dataset.pickle', 'wb')
-pickle.dump(dataset, data_mat_p)
+pickle.dump(dataset, dataset_p)
 dataset_p.close()
+'''
