@@ -14,7 +14,7 @@ pos_data = open('training_pos.csv', 'r').read()
 data = [] #dataset
 all_words = [] #all words in dataset
 s=0
-n=100 # number of examples from each set (any limit or none can be chosen)
+n=20000 # number of examples from each set (any limit or none can be chosen)
 
 
 for line in neg_data.split('\n'):
@@ -40,7 +40,7 @@ for word in all_words:
         true_words.append(word.lower())
 
 
-true_words = nltk.FreqDist(true_words) #?
+true_words = nltk.FreqDist(true_words) #
 featureset = list(true_words.keys())[:5000] #5000 most frequent words
 
 '''Create function that finds features in each line of our document 
@@ -52,30 +52,24 @@ def feature_find_and_index(line):
     line_vector = np.zeros(len(featureset))
     for feature in featureset:
         line_vector[featureset.index(feature)] = int(feature in words)
-    return line_vector    
+    row_vector = line_vector.reshape(1,-1)     
+    return row_vector    
 
 #Find features of each line in our data document
-combine = lambda dataset: [(feature_find_and_index(line), cat) for (line, cat) in dataset ]
+def mat(dataset):
+    new_data = np.zeros((len(dataset), len(featureset)+1))
+    for (line, cat) in dataset:
+        new_data[dataset.index((line, cat)),:] = np.append(feature_find_and_index(line), cat)
+    return new_data[:,:-1] , new_data[:,-1]     # two outputs of training set and target vector
+            
 
-
-#Transform list to matrix for input on neural network
-def reform(dataset):
-    new_data = np.zeros((len(dataset), len(featureset)+1)) #len(featureset) + len(target) 
-    for i in range(len(dataset)):
-        new_data[i,:] = np.append(dataset[i][0].reshape(-1,1), dataset[i][1])
-    return new_data[:,:-1], new_data[:,-1]    #creating outputs: X,_ = reform(data_b) and _,y = reform(data_b)
-
-feature_find_b = lambda dataset: reform(combine(dataset))
-
-'''Combine feature_find_and_index, combine, reform
-'''
-
-# we have output X, y = feature_find_b(data)
 
 '''
+data_X, data_y  = mat(data)
+
 #Advised to pickle
-data_mat_p = open('data_b.pickle', 'wb')
-pickle.dump(data_b, data_mat_p)
+data_mat_p = open('data_X.pickle', 'wb')
+pickle.dump(data_X, data_mat_p)
 data_mat_p.close()
 '''
 
