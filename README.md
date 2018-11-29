@@ -25,7 +25,7 @@ Output will be 0 for negative classification and 4 for positive classification.
 ---
 
 ## Sources
-The code in this project is based on the [NLTK Tutorial](https://pythonprogramming.net/tokenizing-words-sentences-nltk-tutorial/) created by by [sentdex] (https://www.youtube.com/user/sentdex).
+The code in this project is based on the [NLTK Tutorial](https://pythonprogramming.net/tokenizing-words-sentences-nltk-tutorial/) created by [sentdex](https://www.youtube.com/user/sentdex).
 
 ---
 ##Improvements
