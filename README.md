@@ -28,6 +28,6 @@ Output will be 0 for negative classification and 4 for positive classification.
 The code in this project is based on the [NLTK Tutorial](https://pythonprogramming.net/tokenizing-words-sentences-nltk-tutorial/) created by [sentdex](https://www.youtube.com/user/sentdex).
 
 ---
-##Improvements
+## Improvements
 
 Output classes can be changed to 'Negative' and 'Positive' to increase ease of use.
