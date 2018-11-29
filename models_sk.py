@@ -1,8 +1,14 @@
 
 #Import dataset from base
-from data_processor import dataset #importing dataset from base or load pickled dataset 
+# from data_processor import dataset 
 import nltk
 import pickle
+
+#Load dataset
+dataset_l = open('dataset.pickle', 'rb')
+dataset = pickle.load(dataset_l)
+dataset_l.close()
+
 
 #Shuffle data and split into training and validation sets
 import random
